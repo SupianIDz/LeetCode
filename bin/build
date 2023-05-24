@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+
+$sources = array_map(fn($file) => basename($file), glob(__DIR__ . '/../src/*.php'));
+
+usort($sources, function ($a, $b) {
+    return (int) explode('-', $a)[0] - (int) explode('-', $b)[0];
+});
+
+$sources = array_map(
+    function (string $item, int $numb) use ($sources) : string {
+        return sprintf('- [%s](src/%s)', str_replace('.php', '', ucwords(str_replace('-', ' ', preg_replace('/\d+-/', '', $item)))), $item);
+    },
+    $sources,
+    range(1, count($sources)),
+);
+
+file_put_contents(__DIR__ . '/../README.md', "# LeetCode\n" . implode("\n", $sources));
