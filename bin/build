@@ -1,18 +1,35 @@
 #!/usr/bin/env php
 <?php
 
-$sources = array_map(fn($file) => basename($file), glob(__DIR__ . '/../src/*.*'));
+/**
+ * @param  string $item
+ * @param  string $ext
+ * @return string
+ */
+function concat(string $item, string $ext)
+{
+    return sprintf('- [%s](src/%s/%s)', str_replace('.' . $ext, '', ucwords(str_replace('-', ' ', preg_replace('/\d+-/', '', basename($item))))), $ext, basename($item));
+}
 
-usort($sources, function ($a, $b) {
-    return (int) explode('-', $a)[0] - (int) explode('-', $b)[0];
-});
+$data = [];
 
-$sources = array_map(
-    function (string $item, int $numb) use ($sources) : string {
-        return sprintf('- [%s](src/%s)', str_replace(['.php', '.sql'], '', ucwords(str_replace('-', ' ', preg_replace('/\d+-/', '', $item)))), $item);
-    },
-    $sources,
-    range(1, count($sources)),
-);
+foreach (glob(__DIR__ . '/../src/*', GLOB_ONLYDIR) as $dir) {
+    $sources = glob($dir . '/*.*');
+    $ext = pathinfo($sources[0], PATHINFO_EXTENSION);
 
-file_put_contents(__DIR__ . '/../README.md', "# LeetCode\n" . implode("\n", $sources));
+    natsort($sources);
+
+    $data[$ext] = $sources;
+}
+
+$result = '# LeetCode' . PHP_EOL;
+
+foreach ($data as $ext => $items) {
+    $result .= PHP_EOL . '### ' . strtoupper($ext) . PHP_EOL;
+
+    foreach ($items as $item) {
+        $result .= concat($item, $ext) . PHP_EOL;
+    }
+}
+
+file_put_contents(__DIR__ . '/../README.md', $result);
