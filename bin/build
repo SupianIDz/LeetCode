@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-$sources = array_map(fn($file) => basename($file), glob(__DIR__ . '/../src/*.php'));
+$sources = array_map(fn($file) => basename($file), glob(__DIR__ . '/../src/*.*'));
 
 usort($sources, function ($a, $b) {
     return (int) explode('-', $a)[0] - (int) explode('-', $b)[0];
@@ -9,7 +9,7 @@ usort($sources, function ($a, $b) {
 
 $sources = array_map(
     function (string $item, int $numb) use ($sources) : string {
-        return sprintf('- [%s](src/%s)', str_replace('.php', '', ucwords(str_replace('-', ' ', preg_replace('/\d+-/', '', $item)))), $item);
+        return sprintf('- [%s](src/%s)', str_replace(['.php', '.sql'], '', ucwords(str_replace('-', ' ', preg_replace('/\d+-/', '', $item)))), $item);
     },
     $sources,
     range(1, count($sources)),
