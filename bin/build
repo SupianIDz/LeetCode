@@ -6,7 +6,7 @@
  * @param  string $ext
  * @return string
  */
-function concat(string $item, string $ext)
+function concat(string $item, string $ext) : string
 {
     return sprintf('- [%s](src/%s/%s)', str_replace('.' . $ext, '', ucwords(str_replace('-', ' ', preg_replace('/\d+-/', '', basename($item))))), $ext, basename($item));
 }
@@ -22,14 +22,13 @@ foreach (glob(__DIR__ . '/../src/*', GLOB_ONLYDIR) as $dir) {
     $data[$ext] = $sources;
 }
 
-$result = '# LeetCode' . PHP_EOL;
-
+$result = '';
 foreach ($data as $ext => $items) {
-    $result .= PHP_EOL . '### ' . strtoupper($ext) . PHP_EOL;
+    $result .= '### ' . strtoupper($ext) . PHP_EOL;
 
     foreach ($items as $item) {
         $result .= concat($item, $ext) . PHP_EOL;
     }
 }
 
-file_put_contents(__DIR__ . '/../README.md', $result);
+file_put_contents(__DIR__ . '/../README.md', str_replace('[CONTENT]', $result, file_get_contents(__DIR__ . '/stubs/README.md')));
