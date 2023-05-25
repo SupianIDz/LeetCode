@@ -9,11 +9,14 @@ All the code in this repository is the result of a LeetCode submission that I co
 Maybe there will be an algorithm that is similar to the results of other people's work, but that is not a coincidence.
 
 ### PHP
+- [Add Two Integers](src/php/add-two-integers.php)
 - [Longest Common Prefix](src/php/longest-common-prefix.php)
 - [Median Of Two Sorted Arrays](src/php/median-of-two-sorted-arrays.php)
 - [Merge Two Sorted Lists](src/php/merge-two-sorted-lists.php)
 - [Multiply Strings](src/php/multiply-strings.php)
 - [Palindrome Number](src/php/palindrome-number.php)
+- [Pascals Triangle II](src/php/pascals-triangle-II.php)
+- [Pascals Triangle](src/php/pascals-triangle.php)
 - [Plus One](src/php/plus-one.php)
 - [Remove Duplicates From Sorted Array](src/php/remove-duplicates-from-sorted-array.php)
 - [Reverse Integer](src/php/reverse-integer.php)
